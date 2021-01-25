@@ -1,6 +1,5 @@
 
 // type Tree = Nil | Node { value:T, left:Tree, right:Tree }
-
 const min = ({ val, left, _ }) => {
   while ( left ) {
     return min( left );
@@ -60,11 +59,7 @@ const traverse = (of,fn) => {
   );
 }
 
+// [ Some a ] -> Some [ a ]
 const sequence = (of, ap) => {
-  return ap.sequence(of);
-}
-
-// f (x -> x) -> xs -> xs
-const apList = xs => {
-  this.$value(xs)
+  return this.$value.map(of);
 }
