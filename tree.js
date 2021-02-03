@@ -49,7 +49,7 @@ const line45 = ( [u,v] ) => {
 
 // List / Array
 // [a] -> (a -> f b) -> f([b])
-const traverse = (of,fn) => {
+const traverse = (of, fn) => {
   return this.reduce((acc, a) => {
     //     f b       f (bs -> bs)               f([b])
     return fn(a).map(b => bs => bs.concat(b)).ap(acc)
@@ -59,7 +59,7 @@ const traverse = (of,fn) => {
   );
 }
 
-// [ Some a ] -> Some [ a ]
+// t (m a) [ Some a ] -> m (t b) Some [ a ]
 const sequence = (of, ap) => {
-  return this.$value.map(of);
+  return traverse(identity, ap)
 }
