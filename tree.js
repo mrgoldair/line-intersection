@@ -1,4 +1,5 @@
 
+
 // type Tree = Nil | Node { value:T, left:Tree, right:Tree }
 const min = ({ val, left, _ }) => {
   while ( left ) {
@@ -62,4 +63,14 @@ const traverse = (of, fn) => {
 // t (m a) [ Some a ] -> m (t b) Some [ a ]
 const sequence = (of, ap) => {
   return traverse(identity, ap)
+}
+
+class Treap {
+  search (x) {
+
+  }
+  
+  insert (x) {
+
+  }
 }
