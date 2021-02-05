@@ -1,5 +1,3 @@
-
-
 // type Tree = Nil | Node { value:T, left:Tree, right:Tree }
 const min = ({ val, left, _ }) => {
   while ( left ) {
@@ -43,34 +41,39 @@ const minTraverse = ({ val, left, right }, acc) => {
   return acc;
 }
 
-const line45 = ( [u,v] ) => {
-  let [ dx,dy ] = subtract( u,v );
-  let heading = Math.atan(dy/dx);
+class Node {
+
 }
 
-// List / Array
-// [a] -> (a -> f b) -> f([b])
-const traverse = (of, fn) => {
-  return this.reduce((acc, a) => {
-    //     f b       f (bs -> bs)               f([b])
-    return fn(a).map(b => bs => bs.concat(b)).ap(acc)
-  },
-    // f([b]) but empty to begin with
-    of([])
-  );
-}
+export class Treap {
 
-// t (m a) [ Some a ] -> m (t b) Some [ a ]
-const sequence = (of, ap) => {
-  return traverse(identity, ap)
-}
-
-class Treap {
-  search (x) {
-
+  get root() {
+    return this.root;
   }
-  
-  insert (x) {
 
+  constructor() {
+    this.root = null;
+  }
+
+  search(x, node = this.root) {
+    let { left, val, right } = node;
+
+    if ( x == val) return node;
+
+    ( x < val ) ?
+      this.search(x, left) :
+      this.search(x, right);
+  }
+
+  insert(x, node = this.root) {
+    let { left, val, right } = node;
+
+    if ( x < val ){
+      if ( left ) this.insert(x, left)
+      return node.left = Object.assign(Object.create(Node.prototype), {val:x})
+    } else {
+      if ( right ) this.insert(x, right);
+      return node.right = Object.assign(Object.create(Node.prototype), {val:x})
+    }
   }
 }
