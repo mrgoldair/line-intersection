@@ -47,15 +47,26 @@ class Node {
 
 export class Treap {
 
+  // O(1)
   get root() {
     return this.root;
   }
 
-  constructor() {
-    this.root = null;
+  // O(n)
+  get length() {
+    
+  }
+
+  constructor(node) {
+    this.root = node;
   }
 
   search(x, node = this.root) {
+
+    // Because we can delete all the nodes then search
+    // this could always be null.
+    if( node == null ) return;
+
     let { left, val, right } = node;
 
     if ( x == val) return node;
