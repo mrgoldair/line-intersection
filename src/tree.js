@@ -42,26 +42,31 @@ const minTraverse = ({ val, left, right }, acc) => {
 }
 
 class Node {
+  constructor( val, left=null, right=null ){
+    this.left = left;
+    this.right = right;
+    this.val = val
+  }
 
+  get left() {}
+
+  get right() {}
+
+  get val() {}
 }
 
-export class Treap {
-
-  // O(1)
-  get root() {
-    return this.root;
-  }
+class Treap {
 
   // O(n)
   get length() {
-    
+    return minTraverse(this.root, []).length;
   }
 
-  constructor(node) {
+  constructor( node ) {
     this.root = node;
   }
 
-  search(x, node = this.root) {
+  search( x, node = this.root ) {
 
     // Because we can delete all the nodes then search
     // this could always be null.
@@ -69,22 +74,32 @@ export class Treap {
 
     let { left, val, right } = node;
 
-    if ( x == val) return node;
+    if ( x == val ) return node;
 
     ( x < val ) ?
-      this.search(x, left) :
-      this.search(x, right);
+      this.search( x, left ):
+      this.search( x, right );
   }
 
-  insert(x, node = this.root) {
+  insert( x, node = this.root ) {
     let { left, val, right } = node;
 
+    if ( val == null ) {
+      throw new Error("Must at least have a root node");
+    };
+
     if ( x < val ){
-      if ( left ) this.insert(x, left)
-      return node.left = Object.assign(Object.create(Node.prototype), {val:x})
+      // Keep searching for where to insert `x`
+      if ( left ) this.insert( x, left );
+      // `x` is smaller than current node val and we've reached a leaf so insert here
+      return node.left = Object.assign(Object.create(Node.prototype), { val:x, left:null, right:null });
     } else {
+      // Keep searching for where to insert `x`
       if ( right ) this.insert(x, right);
-      return node.right = Object.assign(Object.create(Node.prototype), {val:x})
+      // `x` is larger than current node val and we've reached a leaf so insert here
+      return node.right = Object.assign(Object.create(Node.prototype), { val:x });
     }
   }
 }
+
+module.exports.Treap = Treap;

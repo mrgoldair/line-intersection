@@ -1,7 +1,9 @@
 const fc = require('fast-check') ;
+const { Treap } = require('../src/tree');
 
-describe('test', () => {
-  it('should be true', () => {
-    expect(true).toEqual(true);
+describe('Treap - heap cross with tree', () => {
+  it('Creating a Treap should produce a root node', () => {
+    let treap = new Treap( fc.string() )
+    expect(treap.length).toEqual(1);
   })
 })
