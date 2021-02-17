@@ -1,5 +1,5 @@
 // type Tree = Nil | Node { value:T, left:Tree, right:Tree }
-const min = ({ val, left, _ }) => {
+const min = ({ value, left, _ }) => {
   while ( left ) {
     return min( left );
   }
@@ -7,7 +7,7 @@ const min = ({ val, left, _ }) => {
   return val;
 }
 
-const max = ({ val, _, right }) => {
+const max = ({ value, _, right }) => {
   while ( right ) {
     return max( right );
   }
@@ -25,45 +25,39 @@ const minMax = ( p,v ) => {
 
 }
 
-const minTraverse = ({ val, left, right }, acc) => {
+const minTraverse = ({ value, left, right }, acc=[]) => {
 
   // Tree
   if ( left ){
-    minTraverse(left,acc);
+    minTraverse( left,acc );
   }
   
-  acc.push(val);
+  acc.push(value);
 
   if ( right ){
-    minTraverse(right,acc);
+    minTraverse( right,acc );
   }
 
   return acc;
 }
 
 class Node {
-  constructor( val, left=null, right=null ){
+  constructor( value, left=null, right=null ){
+    this.value = value
     this.left = left;
     this.right = right;
-    this.val = val
   }
-
-  get left() {}
-
-  get right() {}
-
-  get val() {}
 }
 
 class Treap {
 
   // O(n)
   get length() {
-    return minTraverse(this.root, []).length;
+    return minTraverse(this.root).length;
   }
 
-  constructor( node ) {
-    this.root = node;
+  constructor( value ) {
+    this.root = new Node(value);
   }
 
   search( x, node = this.root ) {
@@ -72,7 +66,7 @@ class Treap {
     // this could always be null.
     if( node == null ) return;
 
-    let { left, val, right } = node;
+    let { left, value, right } = node;
 
     if ( x == val ) return node;
 
@@ -82,24 +76,25 @@ class Treap {
   }
 
   insert( x, node = this.root ) {
-    let { left, val, right } = node;
+    let { left, value, right } = node;
 
-    if ( val == null ) {
+    if ( value == null ) {
       throw new Error("Must at least have a root node");
     };
 
-    if ( x < val ){
+    if ( x < value ){
       // Keep searching for where to insert `x`
       if ( left ) this.insert( x, left );
       // `x` is smaller than current node val and we've reached a leaf so insert here
-      return node.left = Object.assign(Object.create(Node.prototype), { val:x, left:null, right:null });
+      return node.left = Object.assign(Object.create(Node.prototype), { value:x, left:null, right:null });
     } else {
       // Keep searching for where to insert `x`
       if ( right ) this.insert(x, right);
       // `x` is larger than current node val and we've reached a leaf so insert here
-      return node.right = Object.assign(Object.create(Node.prototype), { val:x });
+      return node.right = Object.assign(Object.create(Node.prototype), { value:x });
     }
   }
 }
 
 module.exports.Treap = Treap;
+module.exports.minTraverse = minTraverse;
