@@ -25,7 +25,13 @@ const minMax = ( p,v ) => {
 
 }
 
-const minTraverse = ({ value, left, right }, acc=[]) => {
+// List.js
+const minTraverse = ( node, acc = []) => {
+  
+  if ( !node )
+    return acc;
+  
+  let { value, left, right } = node;
 
   // Tree
   if ( left ){
@@ -42,7 +48,7 @@ const minTraverse = ({ value, left, right }, acc=[]) => {
 }
 
 class Node {
-  constructor( value, left=null, right=null ){
+  constructor( value, left = null, right = null ){
     this.value = value
     this.left = left;
     this.right = right;
@@ -53,11 +59,10 @@ class Treap {
 
   // O(n)
   get length() {
-    return minTraverse(this.root).length;
-  }
+    if ( !this.root )
+      return 0;
 
-  constructor( value ) {
-    this.root = new Node(value);
+    return minTraverse(this.root).length;
   }
 
   search( x, node = this.root ) {
@@ -76,22 +81,32 @@ class Treap {
   }
 
   insert( x, node = this.root ) {
+
+    if ( this.root == null ) {
+      this.root = new Node( x );
+      return;
+    }
+
+    if ( node == null )
+      return new Node( x );
+
     let { left, value, right } = node;
 
-    if ( value == null ) {
-      throw new Error("Must at least have a root node");
-    };
+    if ( value == null || value == undefined )
+      throw new Error("Node must have a value");
 
-    if ( x < value ){
+    if ( x <= value ){
       // Keep searching for where to insert `x`
-      if ( left ) this.insert( x, left );
+      node.left = this.insert( x, left );
       // `x` is smaller than current node val and we've reached a leaf so insert here
-      return node.left = Object.assign(Object.create(Node.prototype), { value:x, left:null, right:null });
+      //node.left = Object.assign(Object.create(Node.prototype), { value:x, left:null, right:null });
+      return node;
     } else {
       // Keep searching for where to insert `x`
-      if ( right ) this.insert(x, right);
+      node.right = this.insert( x, right );
       // `x` is larger than current node val and we've reached a leaf so insert here
-      return node.right = Object.assign(Object.create(Node.prototype), { value:x });
+      //node.right = Object.assign(Object.create(Node.prototype), { value:x });
+      return node;
     }
   }
 }

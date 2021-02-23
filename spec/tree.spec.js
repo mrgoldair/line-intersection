@@ -2,9 +2,9 @@ const fc = require('fast-check') ;
 const { Treap, minTraverse } = require('../src/tree');
 
 describe('Treap - heap cross with tree', () => {
-  it('Creating a treap should produce a root node', () => {
-    let treap = new Treap( fc.string() )
-    expect(treap.length).toEqual(1);
+  it('New Treap is empty', () => {
+    let treap = new Treap()
+    expect(treap.length).toEqual(0);
   });
 })
 
@@ -17,15 +17,15 @@ describe('Satisfies heap invariants', () => {
 describe('Satisfies binary search tree invariants', () => {
   it('Sibling nodes must be prioritised in ascending order', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer()), data => {
-        let [ first, ...rest ] = data;
+      fc.property(fc.array(fc.integer()), (data) => {
 
-        let treap = new Treap( first );
-        rest.forEach(data => {
-          treap.insert( data );
+        let treap = new Treap();
+        
+        data.forEach(n => {
+          treap.insert( n );
         });
 
-        expect(minTraverse(treap.root).length).toEqual(treap.length)
+        expect(minTraverse(treap.root)).toHaveLength(data.length);
       })
     );
   });
