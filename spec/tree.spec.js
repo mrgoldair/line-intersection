@@ -17,7 +17,7 @@ describe('Satisfies heap invariants', () => {
 describe('Satisfies binary search tree invariants', () => {
   it('Sibling nodes must be prioritised in ascending order', () => {
     fc.assert(
-      fc.property(fc.array(fc.integer()), (data) => {
+      fc.property(fc.array(fc.integer()), data => {
 
         let treap = new Treap();
         
@@ -25,7 +25,7 @@ describe('Satisfies binary search tree invariants', () => {
           treap.insert( n );
         });
 
-        expect(minTraverse(treap.root)).toHaveLength(data.length);
+        expect(minTraverse(treap.root)).toEqual(data.sort((a,b) => a - b));
       })
     );
   });

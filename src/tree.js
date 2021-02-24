@@ -90,6 +90,7 @@ class Treap {
     if ( node == null )
       return new Node( x );
 
+    // e.g. let left == node.left
     let { left, value, right } = node;
 
     if ( value == null || value == undefined )
@@ -97,9 +98,8 @@ class Treap {
 
     if ( x <= value ){
       // Keep searching for where to insert `x`
+      // Perhaps pass through node.left?
       node.left = this.insert( x, left );
-      // `x` is smaller than current node val and we've reached a leaf so insert here
-      //node.left = Object.assign(Object.create(Node.prototype), { value:x, left:null, right:null });
       return node;
     } else {
       // Keep searching for where to insert `x`
