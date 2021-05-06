@@ -1,17 +1,18 @@
 
-class LineSegment {
-  start:Point;
-  end:Point;
+export type Point = [ number,number ];
+
+export type Segment = [ Point,Point ]
+
+export function randomPoint(xBound:number,yBound:number):Point {
+  return [
+    Math.random() * xBound,
+    Math.random() * yBound
+  ]
 }
 
-class Point {
-
-}
-
-function doIntersect( a:LineSegment,b:LineSegment ): boolean {
-  return false;
-}
-
-function intersection( a:LineSegment,b:LineSegment ): Point | false {
-  return false;
+export function randomSegment(xBounds:number,yBounds:number):Segment {
+  return [
+    randomPoint(xBounds,yBounds),
+    randomPoint(xBounds,yBounds)
+  ];
 }
