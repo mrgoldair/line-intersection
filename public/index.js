@@ -1,37 +1,27 @@
-import { randomSegment } from '../src/two-d';
+import { randSegment } from '../src/two-d';
+import { drawSegment,drawPoint } from '../src/canvas';
 
 let canvas = document.getElementsByTagName('canvas')[0];
 let ctx = canvas.getContext('2d');
 canvas.width = canvas.clientWidth * 2;
 canvas.height = canvas.clientHeight * 2;
 
-const lerp = (low,high,t) => {
-  return low * (1 - t) + high * t
+let bounds = {
+  xMin: 0,
+  xMax: canvas.width,
+  yMin: 0,
+  yMax: canvas.height
 }
 
-const randBetween = (low,high) => {
-  return Math.floor(lerp(low,high,Math.random()))
-}
+let segments = Array
+                .from({length:10})
+                .map(() => randSegment(bounds));
 
-function drawSegment(ctx,[{x:ax,y:ay},{x:bx,y:by}]){
-  ctx.beginPath();
-  ctx.moveTo(ax,ay);
-  ctx.lineTo(bx,by);
-  ctx.closePath();
-  ctx.stroke();
-}
+segments
+  .forEach(s => {
+    drawSegment( ctx,s );
+  });
 
-const randSegment = () => [
-  { x:randBetween(0,canvas.width), y:randBetween(0,canvas.height) },
-  { x:randBetween(0,canvas.width), y:randBetween(0,canvas.height) }
-];
-
-const apply = fn => fn()
-
-const segments = Array(20)
-                  .fill(randSegment)
-                  .map(apply);
-
-segments.forEach(s => {
-  drawSegment( ctx,s );
-})
+segments
+  .flatMap(p => p)
+  .forEach(p => drawPoint(ctx,p))

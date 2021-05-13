@@ -1,6 +1,7 @@
 # Line Intersection
 
-
+- a queue for events
+- a balanced binary search tree for the status
 
 **How do we test for the intersection of two line segments? Comparing overlaps of $x$ and $y$ values of line segment end points?**
 
@@ -22,7 +23,11 @@ Testing adjacent segments (leaf nodes that are side-by-side) within $T$ for inte
 
 ------
 
-We can break this into two questions (and resulting functions) – *do* two segments intersect? and subsequently, *where* do two intersecting segments intersect? We'll break it up like this not only because calculating the former is less intensive than the latter, but for event points other than intersection, we only need to know *if* they intersect
+We can break this into two questions (and resulting functions) – *do* two segments intersect? and subsequently, *where* do two intersecting segments intersect? We'll break it up like this not only because calculating the former is less intensive than the latter, but for event points other than intersection, we only need to know *if* they intersect because of the nature for the sweep line, all detected intersections should be beneath the sweep line.
+
+	-	When a new segment is added by definition the event is the top-most point of the segment so it's neighbours could not have intersected any earlier
+
+- When a segment is removed and it's adjacents intersect, the intersection must be beneath the sweep line, as any earlier and the intersection would have been *on* the removed segment or if the intersection was on either side of the removed segment, either of the adjacent segments would have crossed the removed segments, hence reversing the order and becoming adjacent.
 
 https://gamedev.stackexchange.com/questions/44720/line-intersection-from-parametric-equation
 
