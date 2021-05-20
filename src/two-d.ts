@@ -5,6 +5,13 @@ export type Segment = [ Point,Point ];
 
 export type LineDesc = { mx:number,c:number }
 
+export function lineDesc( a:Point,b:Point ){
+  return {
+    mx: (b.y - a.y) / (b.x - a.x),
+    c: a.y - (this.mx * a.x)
+  }
+}
+
 type Bounds = {
   xMin:number,
   xMax:number,

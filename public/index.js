@@ -1,5 +1,6 @@
 import { randSegment } from '../src/two-d';
 import { drawSegment,drawPoint } from '../src/canvas';
+import { toEvents } from '../src/main';
 
 let canvas = document.getElementsByTagName('canvas')[0];
 let ctx = canvas.getContext('2d');
@@ -28,6 +29,10 @@ segments
   .flatMap(p => p)
   .sort((a,b) => a - b)
   .forEach(p => drawPoint(ctx,p))
+
+// Add to queue
+let events = segments
+              .map(toEvents);
 
 //  Queue
 //    - Desc of line segment (y = mx + c)
