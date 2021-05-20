@@ -17,11 +17,23 @@ let segments = Array
                 .from({length:10})
                 .map(() => randSegment(bounds));
 
+// Draw segments
 segments
   .forEach(s => {
     drawSegment( ctx,s );
   });
 
+// Draw endpoints of segments
 segments
   .flatMap(p => p)
+  .sort((a,b) => a - b)
   .forEach(p => drawPoint(ctx,p))
+
+//  Queue
+//    - Desc of line segment (y = mx + c)
+//  Sweep Line Status
+
+//  Each event `e`
+//     handle `e`
+//       - add/remove
+//       - register intersection

@@ -1,7 +1,7 @@
 # Line Intersection
 
 - a queue for events
-- a balanced binary search tree for the status
+- an ordered dictionary for the status
 
 **How do we test for the intersection of two line segments? Comparing overlaps of $x$ and $y$ values of line segment end points?**
 

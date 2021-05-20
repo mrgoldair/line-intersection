@@ -3,6 +3,8 @@ export type Point = { x:number,y:number };
 
 export type Segment = [ Point,Point ];
 
+export type LineDesc = { mx:number,c:number }
+
 type Bounds = {
   xMin:number,
   xMax:number,
@@ -21,6 +23,11 @@ const lerp = (low:number,high:number,t:number) => {
   return low * (1 - t) + high * t
 }
 
+/**
+ * 
+ * @param bounds the min/max x/y values the point should be within
+ * @returns Point
+ */
 export function randPoint(bounds:Bounds): Point {
   return {
     x:lerp( bounds.xMin, bounds.xMax, Math.random() ),
@@ -28,6 +35,11 @@ export function randPoint(bounds:Bounds): Point {
   }
 }
 
+/**
+ * 
+ * @param bounds the min/max x/y values the segment should be within
+ * @returns Segment
+ */
 export function randSegment(bounds:Bounds): Segment {
   return [
     randPoint(bounds),
