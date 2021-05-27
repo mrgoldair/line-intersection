@@ -1,6 +1,4 @@
-import { randSegment } from '../src/two-d';
-import { drawSegment,drawPoint } from '../src/canvas';
-import { toEvents } from '../src/main';
+import { run } from '../src/main';
 
 let canvas = document.getElementsByTagName('canvas')[0];
 let ctx = canvas.getContext('2d');
@@ -14,26 +12,7 @@ let bounds = {
   yMax: canvas.height
 }
 
-let segments = Array
-                .from({length:10})
-                .map(() => randSegment(bounds));
-
-// Draw segments
-segments
-  .forEach(s => {
-    drawSegment( ctx,s );
-  });
-
-// Draw endpoints of segments
-segments
-  .flatMap(p => p)
-  .sort((a,b) => a - b)
-  .forEach(p => drawPoint(ctx,p))
-
-// Add to queue
-let events = segments
-              .map(toEvents);
-
+run(ctx,bounds);
 //  Queue
 //    - Desc of line segment (y = mx + c)
 //  Sweep Line Status
