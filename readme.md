@@ -1,7 +1,10 @@
 # Line Intersection
 
-- a queue for events
-- an ordered dictionary for the status
+#### TODO
+
+- Given the key of the sweep line status (an ordered dictionary implemented as a treap) is static data `{ mx,c }`, find a way of providing the current sweep line position to the sweep line status as inserts and comparisons are made
+
+
 
 **How do we test for the intersection of two line segments? Comparing overlaps of $x$ and $y$ values of line segment end points?**
 
