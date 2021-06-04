@@ -6,12 +6,12 @@ export type Segment = [ Point,Point ];
 export type LineDesc = { mx:number,c:number }
 
 /**
- * 
- * @param a 
- * @param b 
- * @returns 
+ * Returns the line description of two points in y-intercetp form
+ * @param a - Point
+ * @param b - Point
+ * @returns - LineDesc
  */
-export function lineDesc( a:Point,b:Point ){
+export function lineDesc( a:Point,b:Point ): LineDesc {
   let mx = (b.y - a.y) / (b.x - a.x);
   let c = a.y - (mx * a.x)
   return { mx,c };
@@ -62,7 +62,7 @@ export function randSegment(bounds:Bounds): Segment {
 type Vec = { x:number, y:number }
 
 function subtract(a:Point,b:Point): Vec {
-  return { x:b.x - a.x, y:b.y - a.y }
+  return { x:a.x - b.x, y:a.y - b.y }
 }
 
 function add(a:Vec,b:Vec): Vec {
@@ -73,6 +73,10 @@ function scale(s:number, a:Vec): Vec {
   return { x: s * a.x, y: s * a.y }
 }
 
+function dot(a:Vec,b:Vec): number {
+  return a.x * b.x + a.y * b.y;
+}
+
 /**
  * If two segments intersect, returns `Point` describing where
  * @param a `Segment` to test
@@ -81,11 +85,18 @@ function scale(s:number, a:Vec): Vec {
  */
 export function intersect([a,_b]:Segment, [c,_d]:Segment): Point | undefined {
   // Points `a` and `b` are considered tail-to-tail, not tip-to-tail, and we need the difference to be able to give the parametric representation `a + t.b`
-  let b:Vec = subtract(a,_b);
-  let d:Vec = subtract(c,_d);
+  let b:Vec = subtract(_b,a);
+  let d:Vec = subtract(_d,c);
 
-  let u = (b.x * (c.y - a.x) - b.y * (c.x - a.x)) / (d.x * b.y - d.y * b.x)
-  let t = (d.x * (a.y - c.y) + d.y * (c.x - a.x)) / (b.x * d.y - b.y * d.x)
+  let ud = d.x * b.y - d.y * b.x;
+  let td = b.x * d.y - b.y * d.x;
+
+  // Lines are parallel
+  if ( ud == 0 || td == 0 )
+    return
+
+  let u = (b.x * (c.y - a.y) + b.y * (a.x - c.x)) / ud
+  let t = (d.x * (a.y - c.y) + d.y * (c.x - a.x)) / td
 
   // Intersection point doesn't lie within our segments
   if ( u < 0 || u > 1 || t < 0 || t > 1 )

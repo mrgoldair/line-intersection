@@ -1,5 +1,6 @@
 import { Segment,Point } from './two-d';
 
+// 3152 1886
 export function drawSegment(ctx,s:Segment){
   let [ { x:ax,y:ay },{ x:bx,y:by } ] = s;
   ctx.beginPath();
