@@ -1,17 +1,27 @@
 # Line Intersection
 
-#### TODO
+
+
+##### TODO
 
 - Given the key of the sweep line status (an ordered dictionary implemented as a treap) is static data `{ mx,c }`, find a way of providing the current sweep line position to the sweep line status as inserts and comparisons are made
 
 
 
-**How do we test for the intersection of two line segments? Comparing overlaps of $x$ and $y$ values of line segment end points?**
+**How do we test for the intersection of two line segments?**
 
-First we need to convert the coordinate forms ${x,y}$ into parametric form
+First we need to convert the coordinate forms ${x,y}$ into parametric form.
+
+Either this form, where the two vectors are our line segment endpoints
 $$
-p = (1-s)a + sb
+p = (1-t)a + tb
 $$
+or this form
+$$
+p = a + tc
+$$
+where $c = a - b$ ; c is the relative distance between $a$ and $b$.
+
 **Method**
 
 ------

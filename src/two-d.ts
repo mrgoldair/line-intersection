@@ -5,6 +5,8 @@ export type Segment = [ Point,Point ];
 
 export type LineDesc = { mx:number,c:number }
 
+type Vec = { x:number, y:number }
+
 /**
  * Returns the line description of two points in y-intercetp form
  * @param a - Point
@@ -40,10 +42,10 @@ const lerp = (low:number,high:number,t:number) => {
  * @param bounds the min/max x/y values the point should be within
  * @returns Point
  */
-export function randPoint(bounds:Bounds): Point {
+export function randPoint({ xMin = 0, xMax = Infinity, yMin = 0, yMax = Infinity } = {}): Point {
   return {
-    x:lerp( bounds.xMin, bounds.xMax, Math.random() ),
-    y:lerp( bounds.yMin, bounds.yMax, Math.random() )
+    x:lerp( xMin, xMax, Math.random() ),
+    y:lerp( yMin, yMax, Math.random() )
   }
 }
 
@@ -52,14 +54,12 @@ export function randPoint(bounds:Bounds): Point {
  * @param bounds the min/max x/y values the segment should be within
  * @returns Segment
  */
-export function randSegment(bounds:Bounds): Segment {
+export function randSegment({ xMin = 0, xMax = Infinity, yMin = 0, yMax = Infinity } = {}): Segment {
   return [
-    randPoint(bounds),
-    randPoint(bounds)
+    randPoint({ xMin,xMax,yMin,yMax }),
+    randPoint({ xMin,xMax,yMin,yMax })
   ]
 }
-
-type Vec = { x:number, y:number }
 
 function subtract(a:Point,b:Point): Vec {
   return { x:a.x - b.x, y:a.y - b.y }
@@ -111,6 +111,6 @@ export function intersect([a,_b]:Segment, [c,_d]:Segment): Point | undefined {
  * @param a 
  * @param b 
  */
-function fastIntersect(a:Segment,b:Segment): boolean {
+function doIntersect(a:Segment,b:Segment): boolean {
   return
 }

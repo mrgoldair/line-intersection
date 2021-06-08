@@ -3,9 +3,10 @@ import { drawSegment, drawPoint } from '../src/canvas';
 import { intersect } from '../src/two-d';
 
 let canvas = document.getElementsByTagName('canvas')[0];
-let ctx = canvas.getContext('2d');
 canvas.width = canvas.clientWidth * 2;
 canvas.height = canvas.clientHeight * 2;
+
+let ctx = canvas.getContext('2d');
 
 let bounds = {
   xMin: 0,
@@ -18,11 +19,9 @@ ctx.fillStyle = "white";
 ctx.font = '48px sans-serif';
 ctx.strokeStyle = "white";
 
-canvas.addEventListener('click', e => { console.log("x: %s, y: %s", e.x,e.y) })
-
 let segments = [
-  [ { x:150,y:300 }, { x:150,y:0 } ],
-  [ { x:0,y:150 }, { x:300,y:150 } ],
+  [ { x:canvas.width / 2,y:canvas.height / 2 }, { x:canvas.width / 3,y:canvas.height / 4 } ],
+  [ { x:canvas.width / 3,y:canvas.height / 4 }, { x:canvas.width / 2,y:canvas.height / 3 } ],
 ]
 
 // Draw segments
@@ -59,10 +58,10 @@ function animate(timestamp){
     // Move
     for (let index = 0; index < segments.length; index++) {
       const [a,b] = segments[index];
-      let axdisp = Math.random() * 10;
-      let aydisp = Math.random() * 2;
-      let bxdisp = Math.random() * 8;
-      let bydisp = Math.random() * 7;
+      let axdisp = Math.cos( timestamp / 800 ) * 14;
+      let aydisp = Math.sin( timestamp / 500 ) * 3;
+      let bxdisp = Math.cos( timestamp / 200 ) * 7;
+      let bydisp = Math.sin( timestamp / 444 ) * 12;
       a.x += axdisp;
       a.y += aydisp;
       b.x += bxdisp;
@@ -81,7 +80,7 @@ function animate(timestamp){
 
     ctx.fillText( `${(1000 / elapsed).toFixed(2)}`, 50, bounds.yMax - 50 )
   }
-  
   requestAnimationFrame(animate);
 }
+
 requestAnimationFrame(animate);
