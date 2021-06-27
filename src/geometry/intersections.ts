@@ -1,17 +1,25 @@
-import { lineDesc, LineDesc, Point, Segment } from "./two-d";
+/**
+ * Intersections module.
+ * @module geometry/intersections
+ */
+import { lineDesc, LineDesc, Point, Segment } from "../geometry";
 import Heap from '@mrgoldair/heap';
-import { Treap } from '@mrgoldair/treap';
-
-type EventType = "start" | "end" | "intersect";
-type Event = { type:EventType, desc:LineDesc, point:Point }
+import Treap from '@mrgoldair/treap';
 
 /**
- * A way to compare end-point "events"
- * @param a 
- * @param b 
- * @returns 
+ * Events describe the end-points and intersections for the lines in our set
+ * */
+type Event = { type:EventType, desc:LineDesc, point:Point }
+type EventType = "start" | "end" | "intersect";
+
+/**
+ * Compare two events
+ * @function
+ * @param {Event} a - The first event to compare 
+ * @param {Event} b - The second event to compare
+ * @returns {number} - The negation of one event location from another
  */
-export function eventComparer(a:Event,b:Event){
+function eventComparer(a:Event,b:Event): number {
   if ( a.point.x == b.point.x )
     return a.point.y - b.point.y;
   
@@ -19,11 +27,12 @@ export function eventComparer(a:Event,b:Event){
 }
 
 /**
- * Our problem/app domain
- * @param s 
- * @returns 
+ * Event representations of a segment (one for each end-point)
+ * @function
+ * @param {Segment} s - The segment to project
+ * @returns {[Event,Event]} - The tuple of events
  */
-export function toEvents(s:Segment): Array<Event> {
+function toEvents(s:Segment): [Event,Event] {
   let [ start,end ] = s;
   return [{
     type: "start",
@@ -37,16 +46,22 @@ export function toEvents(s:Segment): Array<Event> {
 }
 
 /**
- * 
+ * Interesction locations for set of segments
+ * @function
+ * @param {Array<Segment>} segments - The set of segments to find intersections for
+ * @returns {Array<Point>} - Intersection locations
  */
-export function intersections(segments:Array<Segment>): Array<Point> {
+export default function intersections(segments:Array<Segment>): Array<Point> {
 
   // Set up our event queue
   let queue = new Heap<Event>(eventComparer);
 
   // Project our segments to events
   let events = segments
-              .flatMap(toEvents);
+               .flatMap(toEvents);
+
+  let intersections:Array<Point>;
+
   // Fill our queue
   events.forEach(e => queue.insert(e));
 

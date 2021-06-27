@@ -4,15 +4,17 @@
 
 ##### TODO
 
-- Given the key of the sweep line status (an ordered dictionary implemented as a treap) is static data `{ mx,c }`, find a way of providing the current sweep line position to the sweep line status as inserts and comparisons are made
+- Given the key of the sweep line status (an ordered dictionary implemented as a treap) is represented as data `{ mx,c }`, find a way of providing the current sweep line position to the sweep line status as inserts and comparisons are made.
+  - 
+- Structure the program so that rendering has no knowledge of how the data structures are updated – express a clear rendering/logic divide.
+- `Event.point -> Event.loc` 
 
 
 
 **How do we test for the intersection of two line segments?**
 
-First we need to convert the coordinate forms ${x,y}$ into parametric form.
+First we need to convert the coordinate forms ${x,y}$ into parametric form. Either this form, where the two vectors are our line segment endpoints
 
-Either this form, where the two vectors are our line segment endpoints
 $$
 p = (1-t)a + tb
 $$
@@ -21,6 +23,8 @@ $$
 p = a + tc
 $$
 where $c = a - b$ ; c is the relative distance between $a$ and $b$.
+
+
 
 **Method**
 
