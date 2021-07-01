@@ -5,7 +5,10 @@
 export type Vec = { x:number,  y:number };
 export type Point = { x:number, y:number };
 export type Segment = [ Point, Point ] | [ Vec, Vec ];
-export type LineDesc = { mx:number, c:number };
+
+export type YIntercet = { mx:number, c:number }
+export type PointSlope = { mx:number, p:Point }
+export type LineDesc = PointSlope | YIntercet;
 
 /**
  * Returns the line description of two points in y-intercetp form
@@ -14,10 +17,22 @@ export type LineDesc = { mx:number, c:number };
  * @param b - Second Point
  * @returns {LineDesc} - The description (y-intercept form) of the line between points a and b
  */
-export function lineDesc( a:Point,b:Point ): LineDesc {
+export function yIntercet( a:Point,b:Point ): LineDesc {
   let mx = (b.y - a.y) / (b.x - a.x);
   let c = a.y - (mx * a.x)
   return { mx,c };
+}
+
+/**
+ * Returns the line description of two points in y-intercetp form
+ * @function
+ * @param a - First point
+ * @param b - Second Point
+ * @returns {LineDesc} - The description (y-intercept form) of the line between points a and b
+ */
+export function pointSlope( a:Point,b:Point ): LineDesc {
+  let mx = (b.y - a.y) / (b.x - a.x);
+  return { mx,p:a };
 }
 
 /**
@@ -89,5 +104,10 @@ export function intersect([a,_b]:Segment, [c,_d]:Segment): Point | undefined {
   if ( u < 0 || u > 1 || t < 0 || t > 1 )
     return
 
-  return add(a, scale(t,b));
+  let location:Point = add(a, scale(t,b));
+
+  return {
+    x: location.x,
+    y: location.y
+  }
 }

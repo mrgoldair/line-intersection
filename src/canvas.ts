@@ -53,9 +53,10 @@ export function render(ctx,update:(timestamp) => State): void {
   _render();
 }
 
-function drawSegment(ctx,s:Segment){
+export function drawSegment(ctx,s:Segment){
   let [ { x:ax,y:ay },{ x:bx,y:by } ] = s;
   ctx.beginPath();
+  ctx.strokeStyle = `hsl(0,0%,90%)`;
   ctx.moveTo(ax,ay);
   ctx.lineTo(bx,by);
   ctx.stroke();

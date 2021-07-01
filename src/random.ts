@@ -8,8 +8,8 @@ import { Point, Segment } from '../src/geometry';
  */
  export function randPoint({ xMin = 0, xMax = Infinity, yMin = 0, yMax = Infinity } = {}): Point {
   return {
-    x:lerp( xMin, xMax, Math.random() ),
-    y:lerp( yMin, yMax, Math.random() )
+    x:Math.floor(lerp( xMin, xMax, Math.random() )),
+    y:Math.floor(lerp( yMin, yMax, Math.random() ))
   }
 }
 

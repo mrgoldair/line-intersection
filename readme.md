@@ -4,8 +4,11 @@
 
 ##### TODO
 
+- Find and remove intersection duplicates (important to set the $mx$ correctly)
+- Why does reloading the page sometimes result in an intersection and sometimes not?
+  - Treap keys were not being properly compared. When treap keys were objects (or any non-number), equality was giving the wrong result. Referential equality operator (`==`) was being used with the intention to compare on value, hence returning incorrect values when non identical references were being used.
 - Given the key of the sweep line status (an ordered dictionary implemented as a treap) is represented as data `{ mx,c }`, find a way of providing the current sweep line position to the sweep line status as inserts and comparisons are made.
-  - 
+  - DONE – Instead of $y = mx + c$ , use  $y - y1 = m(x - x1)$ for the LineDesc type
 - Structure the program so that rendering has no knowledge of how the data structures are updated – express a clear rendering/logic divide.
 - `Event.point -> Event.loc` 
 
