@@ -5,6 +5,7 @@
 import { intersect, pointSlope, PointSlope, LineDesc, Point, Segment } from "../geometry";
 import Heap from '@mrgoldair/heap';
 import Treap from '@mrgoldair/treap';
+import { roundTo } from '../math';
 
 /**
  * Events describe the end-points and intersections for the lines in our set
@@ -89,7 +90,7 @@ export default function intersections(segments:Array<Segment>): Array<Point> {
     let lineB = b as PointSlope;
     let sweepLinePos = lineA.p.x;
 
-    if ( (lineB.p.y + (lineB.mx * (lineA.p.x - lineB.p.x))) == lineA.p.y ){
+    if ( roundTo(3,((lineB.p.y - lineA.p.y) / (lineB.p.x - lineA.p.x))) == roundTo(3,lineA.mx) ){
       return 0;
     } else {
       return lineA.p.y - ((lineB.mx * (sweepLinePos - lineB.p.x)) + lineB.p.y);
@@ -134,8 +135,8 @@ export default function intersections(segments:Array<Segment>): Array<Point> {
         // remove the segment from the status line
         let { desc,position } = event as Endpoint
         
-        let predecessor = sweepline.predecessor( desc );
-        let successor = sweepline.successor( desc );
+        let predecessor = sweepline.predecessor( { ...desc, p: {...position } });
+        let successor = sweepline.successor( { ...desc, p: { ...position } } );
 
         if ( predecessor && successor ){
           let intersection = intersect( predecessor, successor );
@@ -143,7 +144,7 @@ export default function intersections(segments:Array<Segment>): Array<Point> {
             queue.insert( Intersection( intersection, [predecessor, successor] ) );
         }
         
-        sweepline.remove( desc );
+        sweepline.remove( {...desc, p: { ...position }} );
         break
       }
       case "intersect": {
@@ -154,14 +155,15 @@ export default function intersections(segments:Array<Segment>): Array<Point> {
         let lineADesc = pointSlope( as, ae ) as PointSlope;
         let lineBDesc = pointSlope( bs, be ) as PointSlope;
 
-        sweepline.remove( lineADesc );
-        sweepline.remove( lineBDesc );
+        sweepline.remove( { ...lineADesc, p:{ ...position } });
+        sweepline.remove( { ...lineBDesc, p:{ ...position } });
 
         let newLineADesc:PointSlope = { mx:lineADesc.mx, p:{ x:position.x + 1, y:position.y + lineADesc.mx}};
         let newLineBDesc:PointSlope = { mx:lineBDesc.mx, p:{ x:position.x + 1, y:position.y + lineBDesc.mx}};
 
         sweepline.insert( newLineADesc, segments[0] );
-
+        sweepline.insert( newLineBDesc, segments[1] );
+      
         let nap = sweepline.predecessor( newLineADesc );
         if ( nap ){
           let point = intersect( segments[0], nap );
@@ -178,7 +180,6 @@ export default function intersections(segments:Array<Segment>): Array<Point> {
             queue.insert( intersectEventA );
         }
 
-        sweepline.insert( newLineBDesc, segments[1] );
         let nbp = sweepline.predecessor( newLineBDesc );
         if ( nbp ){
           let point = intersect( segments[1], nbp )
