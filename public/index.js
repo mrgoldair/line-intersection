@@ -16,59 +16,12 @@ let bounds = {
   yMax: canvas.height
 }
 
-
-// let segments = Array(5)
-//                 .fill(0)
-//                 .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height }));
-
-let segments = [
-  [
-    {
-      "x": 905,
-      "y": 1323
-    },
-    {
-      "x": 2417,
-      "y": 711
-    }
-  ],
-  [
-    {
-      "x": 1197,
-      "y": 448
-    },
-    {
-      "x": 1780,
-      "y": 1054
-    }
-  ],
-  [
-    {
-      "x": 1279,
-      "y": 1149
-    },
-    {
-      "x": 2020,
-      "y": 848
-    }
-  ],
-  [
-    {
-      "x": 1232,
-      "y": 46
-    },
-    {
-      "x": 1280,
-      "y": 952
-    }
-  ]
-]
-
-console.log(segments);
+let segments = Array(8)
+                .fill(0)
+                .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height }));
 
 let points = intersections(segments);
 
-console.log(points);
 segments.forEach(s => drawSegment(ctx,s));
 
 points.forEach(p => {
