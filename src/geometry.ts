@@ -80,6 +80,16 @@ function dot(a:Vec,b:Vec): number {
 }
 
 /**
+ * 
+ * @param {Vec} a - First vector
+ * @param {Vec} b - Second vector
+ * @returns 
+ */
+function cross<Vec extends { x:number, y:number, z:number }>(a:Vec, b:Vec): Vec {
+  return 
+}
+
+/**
  * The point describing any intersection
  * @param {Segment} a - First segment
  * @param {Segment} b - Second segment
