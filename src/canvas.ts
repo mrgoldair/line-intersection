@@ -41,7 +41,7 @@ export function render(ctx,update:(timestamp) => State): void {
       // Thees don't care what the data is, they just draw
       segments
         .forEach(s => {
-          drawSegment(ctx,s)
+          drawSegment(ctx,`hsla(0,100%,100%,.2)`,s)
           let [ st, e ] = s
           drawEndpoint( ctx, st );
           drawEndpoint( ctx, e )
@@ -68,7 +68,7 @@ function gradient(a:Point,b:Point){
   return (b.y - a.y) / (b.x - a.x);
 }
 
-export function drawSegment(ctx, [ start, end ]:Segment){
+export function drawSegment(ctx, colour, [ start, end ]:Segment){
   let { x:ax, y:ay } = start,
       { x:bx, y:by } = end;
   let grad = gradient( start, end );
@@ -78,7 +78,7 @@ export function drawSegment(ctx, [ start, end ]:Segment){
 
   ctx.beginPath();
   ctx.lineWidth = .5;
-  ctx.strokeStyle = `hsla(0,100%,100%,.2)`;
+  ctx.strokeStyle = colour;
   ctx.moveTo( ax, ay );
   ctx.lineTo( bx, by );
   ctx.stroke();
@@ -92,7 +92,6 @@ export function drawEndpoint(ctx, { x,y }:Point){
   ctx.fillStyle = '#487C9A';
   ctx.strokeStyle = '#282433';
   ctx.arc( x, y, 3, 0, 2*Math.PI );
-  //ctx.fillStyle = `hsla(0,0%,90%,.2)`;
   ctx.fill();
   ctx.stroke();
 }

@@ -1,6 +1,6 @@
 
 import intersections from '../src/geometry/generators/intersections';
-import { drawEndpoint, drawSegment, render } from '../src/canvas';
+import { drawSegment, render } from '../src/canvas';
 import { randSegment } from '../src/random';
 
 let canvas = document.getElementsByTagName('canvas')[0];
