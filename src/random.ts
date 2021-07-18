@@ -1,4 +1,4 @@
-import lerp from '../src/lerp';
+import lerp from '../src/math';
 import { Point, Segment } from '../src/geometry';
 
 /**

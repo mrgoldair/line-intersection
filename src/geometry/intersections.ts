@@ -15,7 +15,7 @@ type Intersection = { type:EventType, position:Point, segments:[ Segment, Segmen
 type Endpoint = { type:EventType, desc:LineDesc, segment:Segment, position:Point }
 type Event = Endpoint | Intersection
 
-function Intersection( position:Point, segments:[Segment,Segment]): Intersection {
+function Intersection(position:Point, segments:[Segment,Segment]): Intersection {
   return {
     type: "intersect",
     position,

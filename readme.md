@@ -10,7 +10,16 @@ Given a set of line segments in general position (neither horizontal nor vertica
 
 
 
-This module is implemented as a "sweep line" algorithm. That is, the two-dimensional problem is reduced to a one-dimensional problem by considering only those segments which are intersecting our sweep line at any given moment – thus a series of points on our "sweep line".
+This module is implemented as a "sweep line" algorithm. That is, the two-dimensional problem is reduced to a one-dimensional problem by considering only those segments which are intersecting our sweep line at any given moment – a series of points on our "sweep line". The sweep line doesn't have to move in 1px increments because the status (the segments and their neighbours that intersect the sweep line) does not change between event points (start, end, intersect). Instead we can simply move the sweep line to the location of the next event and perform our tests there. Those of which are
+
+1. Start event
+   1. When a start event in is encountered we add it's associated line description to the status structure
+   2. Find any neighbours and test for intersection. Add these to the event queue.
+2. End Event
+   1. A line has stopped intersecting the sweep line so we need to remove it. Search for it's desc in the status structure, keeping in mind that line desc used as the key will have a different location to the one associated with the end event so these cannot be simply tested for equality but must be calculated for collinearity.
+   2. Before the line is removed, find it's neighbours and test for intersection, adding any new intersections to the queue.
+3. Intersection Event
+   1. We've found an intersection to add to our output. But before we do that we also need to process the event because intersection events are another significant time that the status structure changes – namely the lines associated swap as they cross at the intersection so now we have a reordering and we also have to test the swapped lines for any new intersections with their new neighbours.
 
 ## Implementation
 
@@ -113,17 +122,11 @@ u = \frac{b_x(c_y - a_y) - b_y(a_x - c_x)}{(d_xb_y - d_yb_x)} \\
 $$
 
 
-Then we do the same for $u$ but making the alternate substitutions
+Then we do the same for $u$ but making the alternate substitutions.
 
-## Line (Segment) Intersection
 
-We can break this into two questions (and resulting functions) – *do* two segments intersect? and subsequently, *where* do two intersecting segments intersect? We'll break it up like this not only because calculating the former is less intensive than the latter, but for event points other than intersection, we only need to know *if* they intersect because of the nature for the sweep line, all detected intersections should be beneath the sweep line.
 
-	-	When a new segment is added by definition the event is the top-most point of the segment so it's neighbours could not have intersected any earlier
 
-- When a segment is removed and it's adjacents intersect, the intersection must be beneath the sweep line, as any earlier and the intersection would have been *on* the removed segment or if the intersection was on either side of the removed segment, either of the adjacent segments would have crossed the removed segments, hence reversing the order and becoming adjacent.
-
-https://gamedev.stackexchange.com/questions/44720/line-intersection-from-parametric-equation
 
 ## Learnings
 

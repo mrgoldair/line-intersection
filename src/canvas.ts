@@ -41,30 +41,65 @@ export function render(ctx,update:(timestamp) => State): void {
       // Thees don't care what the data is, they just draw
       segments
         .forEach(s => {
-          drawSegment(ctx,s);
+          drawSegment(ctx,s)
+          let [ st, e ] = s
+          drawEndpoint( ctx, st );
+          drawEndpoint( ctx, e )
         });
 
       points
         .filter(p => p)
-        .forEach(p => drawPoint(ctx,p));
+        .forEach(p => {
+          ctx.fillStyle = '#487C9A';
+          ctx.strokeStyle = '#282433';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.arc(p.x,p.y,5,0,2 * Math.PI);
+          ctx.fill();
+          ctx.stroke();
+        })
     }
   }
 
   _render();
 }
 
-export function drawSegment(ctx,s:Segment){
-  let [ { x:ax,y:ay },{ x:bx,y:by } ] = s;
+function gradient(a:Point,b:Point){
+  return (b.y - a.y) / (b.x - a.x);
+}
+
+export function drawSegment(ctx, [ start, end ]:Segment){
+  let { x:ax, y:ay } = start,
+      { x:bx, y:by } = end;
+  let grad = gradient( start, end );
+  let theta = Math.atan( grad );
+  let xEndcap = Math.cos(theta) * 15;
+  let yEndcap = Math.sin(theta) * 15;
+
   ctx.beginPath();
-  ctx.strokeStyle = `hsl(0,0%,90%)`;
-  ctx.moveTo(ax,ay);
-  ctx.lineTo(bx,by);
+  ctx.lineWidth = .5;
+  ctx.strokeStyle = `hsla(0,100%,100%,.2)`;
+  ctx.moveTo( ax, ay );
+  ctx.lineTo( bx, by );
+  ctx.stroke();
+  // draw the endpoints
+  drawEndpoint( ctx, { x:ax - xEndcap, y:ay - yEndcap });
+  drawEndpoint( ctx, { x:bx + xEndcap, y:by + yEndcap });
+}
+
+export function drawEndpoint(ctx, { x,y }:Point){
+  ctx.beginPath();
+  ctx.fillStyle = '#487C9A';
+  ctx.strokeStyle = '#282433';
+  ctx.arc( x, y, 3, 0, 2*Math.PI );
+  //ctx.fillStyle = `hsla(0,0%,90%,.2)`;
+  ctx.fill();
   ctx.stroke();
 }
 
-function drawPoint(ctx,p:Point){
+export function drawIntersection(ctx, {x,y}:Point){
   ctx.beginPath();
-  ctx.strokeStyle = `hsl(0,0%,90%)`;
-  ctx.arc(p.x,p.y,10,0,2*Math.PI);
-  ctx.stroke();
+  ctx.arc( x, y, 3, 0, 2*Math.PI );
+  ctx.fillStyle = `hsla(0,0%,90%,.2)`;
+  ctx.fill();
 }

@@ -1,6 +1,6 @@
 
-import intersections from '../src/geometry/intersections';
-import { drawSegment, render } from '../src/canvas';
+import intersections from '../src/geometry/generators/intersections';
+import { drawEndpoint, drawSegment, render } from '../src/canvas';
 import { randSegment } from '../src/random';
 
 let canvas = document.getElementsByTagName('canvas')[0];
@@ -11,37 +11,41 @@ let ctx = canvas.getContext('2d');
 
 let bounds = {
   xMin: 0,
-  xMax: canvas.width,
+  xMax: canvas.width / 4,
   yMin: 0,
-  yMax: canvas.height
+  yMax: canvas.height / 4
 }
 
-let segments = Array(8)
+let segs = Array(10)
                 .fill(0)
-                .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height }));
+                .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height}));
 
-let points = intersections(segments);
+// now returns a generator, not the list of segments
+let gen = intersections(segs);
 
-segments.forEach(s => drawSegment(ctx,s));
+setInterval(() => {
+  let v = gen.next().value;
+  if ( v ) {
+    let { xPosition, segments } = v;
+    // clear our rect before we draw again
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // draw the sweep line
+    drawSegment( ctx, [{x:xPosition,y:0},{x:xPosition,y:canvas.height}] )
+    // draw status of the sweep-line
+    segs.forEach(s => drawSegment( ctx, s ));
+    // draw all segments from the input set
+    segments.forEach(s => drawSegment( ctx, s ));
+  }
+}, 500)
 
-points.forEach(p => {
-  ctx.beginPath();
-  ctx.strokeStyle = `hsl(0,0%,90%)`;
-  ctx.arc(p.x,p.y, 10, 0, 2 * Math.PI);
-  ctx.stroke();
-})
+/*function update(timestamp){
 
-/*
-function update(timestamp){
-  
-  // Modify our state – the `segments`
-  // Logic – update our RenderList
   for (let index = 0; index < segments.length; index++) {
     const [a,b] = segments[index];
-    let axdisp = Math.cos( timestamp / 800 ) * 14;
-    let aydisp = Math.sin( timestamp / 500 ) * 3;
-    let bxdisp = Math.cos( timestamp / 200 ) * 7;
-    let bydisp = Math.sin( timestamp / 444 ) * 12;
+    let axdisp = Math.cos( timestamp /1000) * 2;
+    let aydisp = -Math.sin( timestamp /1000) * 8;
+    let bxdisp = -Math.cos( timestamp /1000) * 4;
+    let bydisp = Math.sin( timestamp /1000) * 6;
     a.x += axdisp;
     a.y += aydisp;
     b.x += bxdisp;
@@ -51,9 +55,8 @@ function update(timestamp){
   return {
     bounds: bounds,
     segments: segments,
-    points: [ intersect(segments[0], segments[1]) ]
+    points: intersections(segments)
   }
 }
 
-render(ctx, update);
-*/
+render(ctx, update); */
