@@ -16,9 +16,9 @@ let bounds = {
   yMax: canvas.height / 4
 }
 
-let segs = Array(10)
-                .fill(0)
-                .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height}));
+let segs = Array(1)
+          .fill(0)
+          .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height}));
 
 // now returns a generator, not the list of segments
 let gen = intersections(segs);
@@ -30,11 +30,11 @@ setInterval(() => {
     // clear our rect before we draw again
     ctx.clearRect(0,0,canvas.width,canvas.height);
     // draw the sweep line
-    drawSegment( ctx, [{x:xPosition,y:0},{x:xPosition,y:canvas.height}] )
-    // draw status of the sweep-line
-    segs.forEach(s => drawSegment( ctx, s ));
+    drawSegment( ctx, "hsla(20,20%,80%,.75)", [{x:xPosition,y:0},{x:xPosition,y:canvas.height}] )
     // draw all segments from the input set
-    segments.forEach(s => drawSegment( ctx, s ));
+    segs.forEach(s => drawSegment( ctx, "#3C306B", s ));
+    // draw sweep-line status
+    segments.forEach(s => drawSegment( ctx, "#5A3AD7", s ));
   }
 }, 500)
 

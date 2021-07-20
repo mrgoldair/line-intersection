@@ -77,7 +77,7 @@ export function drawSegment(ctx, colour, [ start, end ]:Segment){
   let yEndcap = Math.sin(theta) * 15;
 
   ctx.beginPath();
-  ctx.lineWidth = .5;
+  ctx.lineWidth = 2;
   ctx.strokeStyle = colour;
   ctx.moveTo( ax, ay );
   ctx.lineTo( bx, by );
@@ -89,11 +89,9 @@ export function drawSegment(ctx, colour, [ start, end ]:Segment){
 
 export function drawEndpoint(ctx, { x,y }:Point){
   ctx.beginPath();
-  ctx.fillStyle = '#487C9A';
-  ctx.strokeStyle = '#282433';
+  ctx.fillStyle = '#A93ED4';
   ctx.arc( x, y, 3, 0, 2*Math.PI );
   ctx.fill();
-  ctx.stroke();
 }
 
 export function drawIntersection(ctx, {x,y}:Point){
