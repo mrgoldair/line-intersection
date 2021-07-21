@@ -24,6 +24,16 @@ export function yIntercet( a:Point,b:Point ): LineDesc {
 }
 
 /**
+ * 
+ * @param a 
+ * @param b 
+ * @returns 
+ */
+export function gradient(a:Point,b:Point){
+  return (b.y - a.y) / (b.x - a.x);
+}
+
+/**
  * Returns the line description of two points in y-intercetp form
  * @function
  * @param a - First point

@@ -1,7 +1,18 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import LineRenderer from './LineRenderer';
 
-class Slider extends React.Component {
+const App = () => {
+  return (
+    <div className="app">
+      <LineRenderer segments={[[{x:0, y:0},{x:1000,y:1250}]]} points={[]} />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+/*class Slider extends React.Component {
   
   state = {
     selected: false,
@@ -69,6 +80,4 @@ class Slider extends React.Component {
       </div>
     );
   }
-}
-
-ReactDOM.render(<Slider />, document.getElementById('controls'));
+}*/

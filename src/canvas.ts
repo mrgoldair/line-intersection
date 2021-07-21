@@ -2,7 +2,7 @@
  * Render particular geometry to canvas
  * @module canvas
  */
-import { Segment, Point } from './geometry';
+import { Segment, Point, gradient } from './geometry';
 
 export type State = {
   bounds: {
@@ -64,10 +64,6 @@ export function render(ctx,update:(timestamp) => State): void {
   _render();
 }
 
-function gradient(a:Point,b:Point){
-  return (b.y - a.y) / (b.x - a.x);
-}
-
 export function drawSegment(ctx, colour, [ start, end ]:Segment){
   let { x:ax, y:ay } = start,
       { x:bx, y:by } = end;
@@ -87,7 +83,7 @@ export function drawSegment(ctx, colour, [ start, end ]:Segment){
   drawEndpoint( ctx, { x:bx + xEndcap, y:by + yEndcap });
 }
 
-export function drawEndpoint(ctx, { x,y }:Point){
+export function drawEndpoint(ctx, {x,y}:Point){
   ctx.beginPath();
   ctx.fillStyle = '#A93ED4';
   ctx.arc( x, y, 3, 0, 2*Math.PI );
