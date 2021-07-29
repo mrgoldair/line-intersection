@@ -27,8 +27,6 @@ An event queue ($Q$) will hold our events. In this case our initial set of input
 
 At any given time the sweep line status ($T$) contains a subset of segments that are intersecting it. Testing adjacent segments within $T$ for intersection may yield an intersection below the sweep line. This is the third type of event point (the first two being start and end points of a segment). The intersection point is added to the queue ($Q$). When the sweep line dequeues an intersection point we know to record that point in the output and also swap the relevant segments (as segments swap order after an intersection) and test against the swapped lines against their new adjacents in $T$
 
-###### - todo pic -
-
 
 
 ###### How do we test whether two line segments intersect?
@@ -58,7 +56,9 @@ $$
 \mathbf{B} = b - c \\
 \mathbf{A} \times \mathbf{B}
 $$
-Note: Care must be taken to use vectors and not points. Although points and vectors share $x,y$ (and maybe even $z$ ) in their notation, they mean different things and the interpretation of using points instead of vectors would be the cross product of two "vectors" 
+The cross product of two vectors is non-commutative – $a \times x$​​​​ is not the same as $x \times a$​​​, in fact it is the negative of. So when the magnitude of the cross product of the four points ($a,b,c,d$​) that make up our three vectors $A(a-b), B(c-b), C(d-b)$ are both positive then we know $B$ and $C$ both lie on the same side of $A$.
+
+Note: Care must be taken to use vectors and not points. Although points and vectors share $x,y$ (and maybe even $z$​ ) in their notation, they mean different things and the interpretation of using points instead of vectors would be the cross product of two "vectors" 
 
 ###### How do we find the intersection point of two line segments that intersect?
 
@@ -128,7 +128,7 @@ Then we do the same for $u$ but making the alternate substitutions.
 
 
 
-## Learnings
+## Idiot Moments
 
 - (using incorrect line desc - not updating `position` property of `lineDesc` with the event position but using default/start event position) Not updating the description of the line for the end-event, that means using the desc that's given with the event which is the essentially the start-event data means we're essentially comparing with the y value of the line when the sweep line was at it's $x$ position - giving us inorrect results, and more importantly the incorrect directions when we traverse the status structure, for instance to find the predecessor/successor lines.
 - Why does reloading the page sometimes result in an intersection and sometimes not?
