@@ -28,24 +28,22 @@ export function render(ctx,update:(timestamp) => State): void {
    
     const elapsed = timestamp - frame
  
-    if (elapsed > 16) {
+    if (elapsed > 30) {
       // Reset our frame count
       frame = timestamp;
-
       // Call `update` to give us our new state to render
       let { bounds, segments, points } = update(timestamp);
-     
       // Clear the viewport befor we render
-      ctx.clearRect(0,0,bounds.xMax,bounds.yMax);
- 
+      console.log(bounds.yMax)
+      ctx.clearRect(0, 0, bounds.xMax * 2, bounds.yMax * 2);
       // Thees don't care what the data is, they just draw
-      segments
-        .forEach(s => {
-          drawSegment(ctx,`hsla(0,100%,100%,.2)`,s)
-          let [ st, e ] = s
-          drawEndpoint( ctx, st );
-          drawEndpoint( ctx, e )
-        });
+      // segments
+      //   .forEach(s => {
+      //     drawSegment(ctx,s)
+      //     let [ st, e ] = s
+      //     drawEndpoint( ctx, st );
+      //     drawEndpoint( ctx, e )
+      //   });
 
       points
         .filter(p => p)
@@ -68,7 +66,7 @@ function gradient(a:Point,b:Point){
   return (b.y - a.y) / (b.x - a.x);
 }
 
-export function drawSegment(ctx, colour, [ start, end ]:Segment){
+export function drawSegment(ctx, [ start, end ]:Segment){
   let { x:ax, y:ay } = start,
       { x:bx, y:by } = end;
   let grad = gradient( start, end );
@@ -78,7 +76,7 @@ export function drawSegment(ctx, colour, [ start, end ]:Segment){
 
   ctx.beginPath();
   ctx.lineWidth = .5;
-  ctx.strokeStyle = colour;
+  ctx.strokeStyle = 'white';
   ctx.moveTo( ax, ay );
   ctx.lineTo( bx, by );
   ctx.stroke();

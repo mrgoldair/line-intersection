@@ -1,5 +1,5 @@
 
-import intersections from '../src/geometry/generators/intersections';
+import intersections from '../src/geometry/intersections';
 import { drawSegment, render } from '../src/canvas';
 import { randSegment } from '../src/random';
 
@@ -11,19 +11,16 @@ let ctx = canvas.getContext('2d');
 
 let bounds = {
   xMin: 0,
-  xMax: canvas.width / 4,
+  xMax: canvas.width,
   yMin: 0,
-  yMax: canvas.height / 4
+  yMax: canvas.height
 }
 
-let segs = Array(10)
-                .fill(0)
-                .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height}));
+let segments = Array(10)
+            .fill(0)
+            .map(_ => randSegment({ xMax:canvas.width, yMax:canvas.height }));
 
-// now returns a generator, not the list of segments
-let gen = intersections(segs);
-
-setInterval(() => {
+/*setInterval(() => {
   let v = gen.next().value;
   if ( v ) {
     let { xPosition, segments } = v;
@@ -36,9 +33,9 @@ setInterval(() => {
     // draw all segments from the input set
     segments.forEach(s => drawSegment( ctx, s ));
   }
-}, 500)
+}, 500)*/
 
-/*function update(timestamp){
+function update(timestamp){
 
   for (let index = 0; index < segments.length; index++) {
     const [a,b] = segments[index];
@@ -59,4 +56,4 @@ setInterval(() => {
   }
 }
 
-render(ctx, update); */
+render(ctx, update);
