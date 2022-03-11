@@ -1,14 +1,10 @@
 # Line Intersection
 
-
-
-
-
 Given a set of line segments in general position (neither horizontal nor vertical), return the set of points, if any, of the intersections among the segments.
 
-## Method
 
 
+### Method
 
 This module is implemented as a "sweep line" algorithm. That is, the two-dimensional problem is reduced to a one-dimensional problem by considering only those segments which are intersecting our sweep line at any given moment – a series of points on our "sweep line". The sweep line doesn't have to move in 1px increments because the status (the segments and their neighbours that intersect the sweep line) does not change between event points (start, end, intersect). Instead we can simply move the sweep line to the location of the next event and perform our tests there. Those of which are
 
